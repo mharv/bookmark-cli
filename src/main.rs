@@ -1,16 +1,23 @@
-use std::fs::{self, DirEntry, metadata};
-use std::io;
+use std::fs::{self, metadata};
 use std::path::Path;
 
 fn main() {
     // check if folder named bookmarks exists.
     //
-    let dirs = fs::read_dir(".").unwrap();
+    let dirs;
+    match fs::read_dir("./bookmarks/") {
+        Ok(_) => {
+            println!("bookmarks dir found.");
+            dirs = fs::read_dir("./bookmarks").unwrap();
+        }
+        Err(_) => {
+            fs::create_dir("./bookmarks/").unwrap();
+            dirs = fs::read_dir("./bookmarks").unwrap();
+        }
+    }
 
     for dir in dirs {
-        if metadata(dir.as_ref().unwrap().path()).unwrap().is_dir() {
-            println!("{:?}", dir);
-        }
+        println!("{:?}", metadata(dir.unwrap().path()));
     }
 
     // if not, create one.
