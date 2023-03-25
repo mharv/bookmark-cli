@@ -1,9 +1,9 @@
+use serde_json::{json, Value};
 use std::fs::{self, metadata, File};
 use std::io::Read;
 use std::path::Path;
 
 fn main() {
-
     // check if folder named bookmarks exists.
     let dirs;
     match fs::read_dir("./bookmarks/") {
@@ -22,10 +22,11 @@ fn main() {
     }
 
     // if not, create one from json file
+
     // check if file exists
 
     let mut imported_file_contents = String::new();
-    match File::open("./ssot.json") {
+    match File::open("./bookmarks-2023-03-25.json") {
         Ok(mut file) => {
             file.read_to_string(&mut imported_file_contents).unwrap();
         }
@@ -34,7 +35,14 @@ fn main() {
         }
     }
 
-    println!("{}", imported_file_contents);
+    // pretty print
+    let imported_file_contents_json: Value = serde_json::from_str(&imported_file_contents).unwrap();
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&imported_file_contents_json).unwrap()
+    );
+
+
 
     // do a git pull from a github repo.
     // do check to see if git repo exists.
