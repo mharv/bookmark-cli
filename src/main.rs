@@ -1,9 +1,23 @@
-use std::fs::{self, metadata};
+use std::fs::{self, metadata, File};
+use std::io::Read;
 use std::path::Path;
 
 fn main() {
     // check if folder named bookmarks exists.
     //
+
+    let mut imported_file_contents = String::new();
+    match File::open("./ssot.json") {
+        Ok(mut file) => {
+            file.read_to_string(&mut imported_file_contents).unwrap();
+        }
+        Err(_) => {
+            println!("You require the file \"ssot.json\" to exist");
+        }
+    }
+
+    println!("{}", imported_file_contents);
+
     let dirs;
     match fs::read_dir("./bookmarks/") {
         Ok(_) => {
