@@ -26,6 +26,8 @@ fn main() {
     // check if file exists
 
     let mut imported_file_contents = String::new();
+    
+    // this file should be named something fixed
     match File::open("./bookmarks-2023-03-25.json") {
         Ok(mut file) => {
             file.read_to_string(&mut imported_file_contents).unwrap();
@@ -41,6 +43,8 @@ fn main() {
         "{}",
         serde_json::to_string_pretty(&imported_file_contents_json).unwrap()
     );
+
+    // test some encryption/decryption here
 
 
 
